@@ -1,9 +1,9 @@
-// 메모 업데이트
+// 메모 업데이트 PUT
 async function editMemo(event) {
   const id = event.target.dataset.id;
   const editInput = prompt("수정할 내용을 입력 하세요.");
   const res = await fetch(`/memos/${id}`, {
-    method: "PUT" /* PUT : 수정 */,
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -11,6 +11,15 @@ async function editMemo(event) {
       id /* // id:id = id 하나만 적어도 된다. */,
       content: editInput,
     }),
+  });
+  readMemo();
+}
+
+// 메모 삭제
+async function deleteMemo(event) {
+  const id = event.target.dataset.id;
+  const res = await fetch(`/memos/${id}`, {
+    method: "DELETE",
   });
   readMemo();
 }
@@ -27,8 +36,14 @@ function displayMemos(memo) {
   editBtn.addEventListener("click", editMemo);
   editBtn.dataset.id = memo.id;
 
-  ul.appendChild(li);
+  const delBtn = document.createElement("button");
+  delBtn.innerText = "삭제하기";
+  delBtn.addEventListener("click", deleteMemo);
+  delBtn.dataset.id = memo.id;
+
   li.appendChild(editBtn);
+  li.appendChild(delBtn);
+  ul.appendChild(li);
 }
 
 // 메모조회

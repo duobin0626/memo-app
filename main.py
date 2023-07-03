@@ -27,4 +27,14 @@ def put_memo(req_memo:Memo):
             return '성공했습니다.'
     return '그런 메모는 없습니다.'
 
+# enumerate() : 배열의 index와 값을 같이 뽑아 내 주는 함수.
+# for문을 사용할 때 index와 값을 같이 쓰려면  배열에 enumerate() 라는 함수로 감싸줘야 한다.
+@app.delete("/memos/{memo_id}")
+def delete_memo(memo_id):
+    for index,memo in enumerate(memos):
+        if memo.id==memo_id:
+            memos.pop(index) 
+            return '삭제됐습니다.'
+    return '그런 메모는 없습니다.'
+
 app.mount("/", StaticFiles(directory="static",html=True), name="static")
